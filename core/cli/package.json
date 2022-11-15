@@ -21,9 +21,16 @@
   },
   "dependencies": {
     "@bobo-cli-dev/log": "file:../../utils/log",
+    "@bobo-cli-dev/get-npm-info": "file:../../utils/get-npm-info",
+    "@types/node": "^18.11.9",
     "colors": "^1.4.0",
+    "dotenv": "^16.0.3",
     "import-local": "^3.1.0",
+    "minimist": "^1.2.7",
     "npmlog": "^7.0.1",
-    "semver": "^7.3.8"
+    "path-exists": "4.0.0",
+    "root-check": "1.0.0",
+    "semver": "^7.3.8",
+    "user-home": "^3.0.0"
   }
 }
