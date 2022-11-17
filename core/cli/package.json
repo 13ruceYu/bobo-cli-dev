@@ -20,10 +20,11 @@
     "test": "node ./__tests__/core.test.js"
   },
   "dependencies": {
-    "@bobo-cli-dev/log": "file:../../utils/log",
     "@bobo-cli-dev/get-npm-info": "file:../../utils/get-npm-info",
+    "@bobo-cli-dev/log": "file:../../utils/log",
     "@types/node": "^18.11.9",
     "colors": "^1.4.0",
+    "commander": "^9.4.1",
     "dotenv": "^16.0.3",
     "import-local": "^3.1.0",
     "minimist": "^1.2.7",
