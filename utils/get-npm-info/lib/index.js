@@ -30,7 +30,7 @@ async function getNpmVersions (npmName, registry) {
 }
 
 function getSemverVersions (baseVersion, versions) {
-  return versions.filter(v => semver.satisfies(v, `^${baseVersion}`)).sort((a, b) => semver.gt(b, a))
+  return versions.filter(v => semver.satisfies(v, `>${baseVersion}`)).sort((a, b) => semver.gt(b, a))
 }
 
 async function getNpmSemverVersion (baseVersion, npmName, registry) {
@@ -39,6 +39,7 @@ async function getNpmSemverVersion (baseVersion, npmName, registry) {
   if (newVersions && newVersions.length > 0) {
     return newVersions[0];
   }
+  return null;
 }
 
 function getDefaultRegistry (isOriginal = false) {
