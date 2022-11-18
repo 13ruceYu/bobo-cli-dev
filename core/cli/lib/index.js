@@ -9,30 +9,31 @@ const colors = require('colors');
 const rootCheck = require('root-check');
 const userHome = require('user-home');
 const pathExists = require('path-exists');
-const minimist = require('minimist')
 const dotEnv = require('dotenv')
 const commander = require('commander')
+const init = require('@bobo-cli-dev/init')
 
 const pkg = require('../package.json');
 const constants = require('./const');
-
-let args;
 
 const program = new commander.Command()
 
 async function core () {
   try {
-    checkPkgVersion();
-    checkNodeVersion();
-    checkRoot();
-    checkUserHome();
-    // checkInputArgs();
-    checkEnv();
-    await checkGlobalUpdate();
+    await prepare()
     registerCommand()
   } catch (e) {
     log.error(e.message)
   }
+}
+
+async function prepare () {
+  checkPkgVersion();
+  checkNodeVersion();
+  checkRoot();
+  checkUserHome();
+  checkEnv();
+  await checkGlobalUpdate();
 }
 
 function registerCommand () {
@@ -41,14 +42,14 @@ function registerCommand () {
     .usage('<command> [options]')
     .version(pkg.version)
     .option('-d, --debug', '是否开启调试模式', false)
+    .option('tp, --targetPath <targetPath>', '是否指定本地调试文件', '')
 
   program
     .command('init [projectName]')
     .option('-f, --force', '是否强制初始化项目')
-    .action((projectName, cmdObj) => {
-      console.log('init', projectName, cmdObj);
-    })
+    .action(init)
 
+  // 开启 debug 模式
   program.on('option:debug', function () {
     if (this.opts().debug) {
       process.env.LOG_LEVEL = 'verbose'
@@ -57,6 +58,11 @@ function registerCommand () {
     }
     log.level = process.env.LOG_LEVEL
     log.verbose('test')
+  })
+
+  // 指定 targetPath
+  program.on('option:targetPath', function () {
+    process.env.CLI_TARGET_PATH = this.opts().targetPath;
   })
 
   // 监听未知命令
@@ -115,19 +121,6 @@ function createDefaultConfig () {
   process.env.CLI_HOME_PATH = cliConfig.cliHome;
 }
 
-function checkInputArgs () {
-  args = minimist(process.argv.slice(2))
-  checkArgs();
-}
-
-function checkArgs () {
-  if (args.debug) {
-    process.env.LOG_LEVEL = 'verbose';
-  } else {
-    process.env.LOG_LEVEL = 'info';
-  }
-  log.level = process.env.LOG_LEVEL;
-}
 
 function checkUserHome () {
   if (!userHome || !pathExists(userHome)) {

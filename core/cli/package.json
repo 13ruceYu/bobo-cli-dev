@@ -22,6 +22,7 @@
   "dependencies": {
     "@bobo-cli-dev/get-npm-info": "file:../../utils/get-npm-info",
     "@bobo-cli-dev/log": "file:../../utils/log",
+    "@bobo-cli-dev/init": "file:../../commands/init",
     "@types/node": "^18.11.9",
     "colors": "^1.4.0",
     "commander": "^9.4.1",
